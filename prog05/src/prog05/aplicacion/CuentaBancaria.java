@@ -1,43 +1,63 @@
 package prog05.aplicacion;
 
-import prog05.CCC;
-import prog05.exceptions.FormatoNonValidoException;
-import prog05.exceptions.SaldoInsException;
-
 public class CuentaBancaria {
 	
 	private double saldo;
 	private CCC ccc;
-	private Nome nome;
+	private String nome;
+        private static int maxLonxNome=30;
 	
 	public CuentaBancaria() {}
-	public CuentaBancaria (Nome nome, CCC ccc) {
-		this.ccc=ccc;
+        
+	public CuentaBancaria (String nome, CCC ccc) throws Exception{
+            if (comprobaNome(nome)){
+                this.ccc=ccc;
 		this.nome=nome;
 		this.saldo=0;
+            } else{
+                throw new Exception("O nome introducido excede a lonxitude maxima");
+            }
 	}
-	public static boolean comprobaDouble(String importe) {
+        /**
+         * 
+         * @param nome String co nome do titular da conta.
+         * @return true se cumple cos requerimentos false en caso contrario.
+         */
+        private boolean comprobaNome(String nome){
+            if (nome.length()>CuentaBancaria.getMaxLonxNome()){
+                return false;
+            } else {
+                return true;
+            }
+        }
+        
+	private boolean comprobaImporte(String importe) {
 		try {
-			Double.parseDouble(importe);
-			return true;
+			Double imp=Double.parseDouble(importe);
+                        if( imp <= 0.0){
+                            return true;
+                        } else{
+                            return false;
+                        }
 		} catch (NumberFormatException e) {
 			return false;
 		}
 	}
-	public void ingresoEfectivo (String ingreso) throws FormatoNonValidoException {
-		if (comprobaDouble(ingreso)) {
+        
+	public void ingresoEfectivo (String ingreso) throws Exception {
+		if (comprobaImporte(ingreso)) {
 			this.saldo=this.saldo+Double.parseDouble(ingreso);
 		}else {
-			throw new FormatoNonValidoException("Erro no formato introducido.");
+			throw new Exception("Erro no importe introducido");
 		}
 	}
 	
-	public void retiradaEfectivo (String retirada) throws SaldoInsException, FormatoNonValidoException  {
-		if(!comprobaDouble(retirada)) {
-			throw new FormatoNonValidoException("Erro no formato da cantidade introducido");
+	public void retiradaEfectivo (String retirada) throws Exception  {
+		if(!comprobaImporte(retirada)) {
+			throw new Exception("Erro no formato da cantidade introducido");
 		}
 		if (Double.parseDouble(retirada)>this.saldo) {
-			throw new SaldoInsException("Non hai fondos suficientes!, saldo actual: "+this.saldo);
+			throw new Exception("Non hai fondos suficientes!, saldo actual: "+this.saldo);
 		}else {
 			this.saldo=this.saldo-Double.parseDouble(retirada);
 		}
@@ -53,11 +73,26 @@ public class CuentaBancaria {
 	public void setCcc(CCC ccc) {
 		this.ccc = ccc;
 	}
-	public Nome getNome() {
+	public String getNome() {
 		return nome;
 	}
-	public void setNome(Nome nome) {
-		this.nome = nome;
+	public void setNome(String nome) throws Exception {
+            if (comprobaNome(nome)){
+                this.nome = nome;
+            } else {
+                throw new Exception ("O nome introducido excede a lonxitude maxima");
+            }
+		
 	}
-	
+        
+        public static int getMaxLonxNome (){
+            return maxLonxNome;
+        }
+        public static void setMaxLonxNome(int lonx) throws Exception{
+            if (lonx <= 0){
+                throw new Exception ("Introduciuse unha lonxitude de nome negativa");
+            } else {
+                maxLonxNome=lonx;
+            }
+        }
 }

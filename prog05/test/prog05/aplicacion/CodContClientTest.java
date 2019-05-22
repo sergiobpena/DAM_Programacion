@@ -1,11 +1,11 @@
-package prog05.test;
+package prog05.aplicacion;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-
-import prog05.CCC;
+import prog05.aplicacion.CCC;
 
 public class CodContClientTest {
 	

@@ -1,10 +1,8 @@
 package prog05.aplicacion;
 
-import prog05.exceptions.FormatoNonValidoException;
-import prog05.exceptions.NumeroErroneoException;
 
 /**
- * Clase que xestiona os Codigos de Conta Cliente CCC4
+ * Clase que xestiona os Codigos de Conta Cliente 
  * 
  * @author Sergio Botana Pena
  * 
@@ -18,16 +16,16 @@ public class CCC {
 	private String dc;
 	private String numCuenta;
 /**
+ * Constructor da clase CCC
  * 
- * @param ccc
- * @throws NumeroErroneoException
- * @throws FormatoNonValidoException
+ * @param ccc String co numero de conta cliente
+ * @throws Exception
  */
-	public CCC (String ccc) throws NumeroErroneoException, FormatoNonValidoException {
+	public CCC (String ccc) throws Exception {
 		if (!comprobaFormato(ccc)) {
-			throw new FormatoNonValidoException("O numero de conta introducido non est� no formato axeitado, EX: 035-0242-84-3832312921");	
+			throw new Exception ("O numero de conta introducido non está no formato axeitado, EX: 035-0242-84-3832312921");	
 		}else if (!validarDC(ccc)){
-			throw new NumeroErroneoException("O numero de conta " + ccc + " introducido non � v�lido");
+			throw new Exception("O numero de conta " + ccc + " introducido non é válido");
 		}else {
 			this.ccc=ccc;
 			String [] cadea = ccc.split("-");
@@ -40,9 +38,9 @@ public class CCC {
 /**
  * 
  * @param numero
- * @return
+ * @return true se o formato é válido , false se non é valido
  */
-	public static boolean comprobaEnteiros(String numero) {
+	private boolean comprobaFormatoNumero(String numero) {
 		try {
 			Double.parseDouble(numero);
 			return true;
@@ -51,17 +49,18 @@ public class CCC {
 		}
 	}
 /**
- * 	
+ * Metodo para comprobar que se insertou o CCC no formato correcto
+ * 
  * @param numero
- * @return
+ * @return true ou false segundo este ben insertado o CCC 
  */
-	public static boolean comprobaFormato(String numero) {
+	private  boolean comprobaFormato(String numero) {
 		String [] cadea = numero.split("-");
 		boolean [] numeros = {false,false,false,false};
 		
 		if (cadea.length==4 && cadea[0].length()==4 && cadea[1].length()==4 && cadea[2].length()==2 && cadea[3].length()==10 ) {
 			for (int i= 0 ; i<cadea.length ;i++) {
-				numeros[i]=comprobaEnteiros(cadea[i]);
+				numeros[i]=comprobaFormatoNumero(cadea[i]);
 			}
 			if(numeros[0] && numeros [1] && numeros [2] && numeros [3]) {
 				return true;
@@ -73,24 +72,26 @@ public class CCC {
 		}
 	}
 /**
- * 	
- * @param numero
- * @return
+ * Método que sepata o string en array de int para facilitar o calculo do DC	
+ * @param numero String introducido co CCC en formato 
+ * @return numeroSplit [] array co CCC en integer
  */
 	public static int [] separaDixitos (String numero) {
+            //Primeiro paso de String a array de char
 		char [] numeroString = numero.toCharArray();
+                //Instanciación do array de int a encher
 		int [] numeroSplit = new int [numeroString.length];
-		
+		//Bucle para o recheo do array de int, onde se pasa o valor en char
+                //a int 
 		for (int i = 0 ; i< numeroString.length;i++) {
 			numeroSplit[i]=Character.getNumericValue(numeroString[i]);
 		}
 		return numeroSplit;
 	}
-	
 /**
  * 	
- * @param cccFormateada
- * @return
+ * @param cccFormateada String co CCC
+ * @return codCont array cos dous dixitos de control
  */
 	public static int[] obtenDixitoControl(String cccFormateada) {
 		//Declaracion de variables
@@ -127,7 +128,7 @@ public class CCC {
  * @param cccFormateada
  * @return
  */
-	public static boolean validarDC (String cccFormateada) {
+	public static  boolean validarDC (String cccFormateada) {
 		//Declaracion de variables
 		String[] cccFormateadaArray= cccFormateada.split("-");
 		int[] dcIntroducido=separaDixitos(cccFormateadaArray[2]);
@@ -150,11 +151,11 @@ public class CCC {
 		return ccc;
 	}
 
-	public void setCcc(String ccc) throws NumeroErroneoException, FormatoNonValidoException {
+	public void setCcc(String ccc) throws Exception{
 		if (!CCC.comprobaFormato(ccc)) {
-			throw new FormatoNonValidoException("O numero de conta introducido non est� no formato axeitado, EX EEEE-SSSS-DD-CCCCC");	
+			throw new Exception("O numero de conta introducido non est� no formato axeitado, EX EEEE-SSSS-DD-CCCCC");	
 		}else if (!CCC.validarDC(ccc)){
-			throw new NumeroErroneoException("O numero de conta " + ccc + "introducido � erroneo");
+			throw new Exception("O numero de conta " + ccc + "introducido � erroneo");
 		}else {
 			this.ccc=ccc;
 			String [] cadea = ccc.split("-");
