@@ -1,37 +1,52 @@
 package prog05.aplicacion;
-
+/**
+ * Clase CuentaBancaria, para creación de obxectos de cada conta bancaria que se 
+ * faga alta. Xestionara as operacions sobre o saldo e almacenara o CCC e o Nome do 
+ * titular
+ * @author Sergio
+ */
 public class CuentaBancaria {
 	
 	private double saldo;
 	private CCC ccc;
 	private Nome nome;
-        private static int maxLonxNome=30;
 	
 	public CuentaBancaria() {}
-        
-	public CuentaBancaria (Nome nome, CCC ccc) throws Exception{
-            if (comprobaNome(nome)){
-                this.ccc=ccc;
-		this.nome=nome;
-		this.saldo=0;
-            } else{
-                throw new Exception("O nome introducido excede a lonxitude maxima");
-            }
+        /**
+         * Constructor. As validacións deleganse nas clases CCC e Nome
+         * @param nome obxecto cos datos do titutal da conta
+         * @param ccc  obxecto co codigo conta cliente validado
+         */
+	public CuentaBancaria (Nome nome, CCC ccc){
+   
+            this.ccc=ccc;
+            this.nome=nome;
+            this.saldo=0;
+ 
 	}
-        
+        /**
+         * Metodo para validar a entrada do usuario, descartando valores non numericos
+         * inveriores ou iguales a 0
+         * @param importe String introducido polo usuario co importe
+         * @return true se é correcto false en caso contrario
+         */
 	private boolean comprobaImporte(String importe) {
 		try {
 			Double imp=Double.parseDouble(importe);
                         if( imp <= 0.0){
-                            return true;
-                        } else{
                             return false;
+                        } else{
+                            return true;
                         }
 		} catch (NumberFormatException e) {
 			return false;
 		}
 	}
-        
+        /**
+         * Metodo para xestionar os ingresos na conta.
+         * @param ingreso importe introducido polo usuario
+         * @throws Exception se non se introduci
+         */
 	public void ingresoEfectivo (String ingreso) throws Exception {
 		if (comprobaImporte(ingreso)) {
 			this.saldo=this.saldo+Double.parseDouble(ingreso);
@@ -42,7 +57,7 @@ public class CuentaBancaria {
 	
 	public void retiradaEfectivo (String retirada) throws Exception  {
 		if(!comprobaImporte(retirada)) {
-			throw new Exception("Erro no formato da cantidade introducido");
+			throw new Exception("Erro no importe introducido");
 		}
 		if (Double.parseDouble(retirada)>this.saldo) {
 			throw new Exception("Non hai fondos suficientes!, saldo actual: "+this.saldo);

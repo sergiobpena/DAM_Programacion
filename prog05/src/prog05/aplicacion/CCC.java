@@ -7,11 +7,15 @@ package prog05.aplicacion;
  */
 
 public class CCC {
-
+        //Atributo para almacenar o CCC completo
 	private String ccc;
+        //Atributo para almacenar os dixitotos da entidade
 	private String entidad;
+        //Atributo para almacenar os dixitos da sucursal
 	private String sucursal;
+        //Atributo para almacenar o DC
 	private String dc;
+        //Atributo para almacenr o numero de conta
 	private String numCuenta;
 /**
  * Constructor da clase CCC 
@@ -33,13 +37,14 @@ public class CCC {
 		}
 	}
 /**
- * Metodo para encapsular as NumberFormatExceptions
- * @param numero
+ * Metodo para comprobar que se introduciron numeros no patron esixido o 
+ * usuario
+ * @param entradaUsuario
  * @return true se temos numeros false se temos outros caracteres
  */
-	private boolean comprobaFormatoNumero(String numero) {
+	private boolean comprobaFormatoNumero(String entradaUsuario) {
 		try {
-			Double.parseDouble(numero);
+			Double.parseDouble(entradaUsuario);
 			return true;
 		} catch (NumberFormatException nfe) {
 			return false;
@@ -47,11 +52,11 @@ public class CCC {
 	}
 /**
  * Metodo para comprobar que se insertou o CCC no formato EEEE-OOOO-DD-CCCCCCCCCC
- * @param numero String que se lee.
+ * @param entradaUsuario String que se lee.
  * @return true ou false segundo este ben insertado o CCC 
  */
-	private  boolean comprobaFormato(String numero) {
-		String [] cadea = numero.split("-");
+	private  boolean comprobaFormato(String entradaUsuario) {
+		String [] cadea = entradaUsuario.split("-");
                 //Array booleana auxiliar para comprobar que os catro numeros introducidos 
                 //por teclado estan en formato numerico, inicialmente suponse que están mal
 		boolean [] numeros = {false,false,false,false};
@@ -73,12 +78,12 @@ public class CCC {
 	}
 /**
  * Método que sepata o string en array de int para facilitar o calculo do DC
- * @param numero String introducido co CCC en formato 
- * @return numeroSplit [] array co CCC en integer
+ * @param entradaComponente String introducido coa compoñente do cc 
+ * @return numeroSplit [] array compoñente en enteiros
  */
-	public static int [] separaDixitos (String numero) {
+	public static int [] separaDixitos (String entradaComponente) {
             //Primeiro paso de String a array de char
-		char [] numeroString = numero.toCharArray();
+		char [] numeroString = entradaComponente.toCharArray();
                 //Instanciación do array de int a encher
 		int [] numeroSplit = new int [numeroString.length];
 		//Bucle para o recheo do array de int, onde se pasa o valor en char
@@ -91,18 +96,27 @@ public class CCC {
 /**
  * Metodo que calcula o DC correspondente os codigos de entidade,oficina e numero
  * de conta introducidos
- * @param cccFormateada String co CCC
+ * @param cccIntroducida String co CCC
  * @return codCont array cos dous dixitos de control
  */
-	private int[] obtenDixitoControl(String cccFormateada) {
+	private int[] obtenDixitoControl(String cccIntroducida) {
 		//Declaracion de variables
-		String [] cadea = cccFormateada.split("-");
+                //Separa o CCC nun String[4] onde a primeira compoñente e o codigo de 
+                //entidade , a ssegunda o codigo de oficina , a terceira o DC e a cuarta o numero de conta
+		String [] cadea = cccIntroducida.split("-");
 		int [] codEntidad=separaDixitos(cadea[0]);
+                //Variable correspondentes os coeficientes de calculo do DC asociados
+                //o codigo de entidad
 		int [] coefEntidad = {4,8,5,10};
 		int [] codOficina = separaDixitos(cadea[1]);
+                //Variable correspondentes os coeficientes de calculo do DC asociados
+                //o codigo de oficina
 		int [] coefOficina= {9,7,3,6};
 		int[] numConta= separaDixitos(cadea[3]);
+                //Variable correspondentes os coeficientes de calculo do DC asociados
+                //o numero de conta
 		int[] coefConta = {1,2,4,8,5,10,9,7,3,6};
+                //Variable array de 2 int para obter o DC , inicializase a 0
 		int [] codCont = {0,0};
 		
 		//Bucle for para a suma da multiplicacion dos dixitos da entidade e oficina polos seus respectivos coeficientes
@@ -127,14 +141,17 @@ public class CCC {
 /**
  * Metodo que comproba que o DC introducido coincide co esperado correspondente os 
  * datos introducidos
- * @param cccFormateada String procedente da lectura do CCC
+ * @param cccIntroducida String procedente da lectura do CCC
  * @return true se o DC é valido , false en caso contrario
  */
-	private boolean validarDC (String cccFormateada) {
+	private boolean validarDC (String cccIntroducida) {
 		//Declaracion de variables
-		String[] cccFormateadaArray= cccFormateada.split("-");
+                //Separacion do string introducido
+		String[] cccFormateadaArray= cccIntroducida.split("-");
+                //Almacenamento do DC introducido
 		int[] dcIntroducido=separaDixitos(cccFormateadaArray[2]);
-		int [] dcCalculado= obtenDixitoControl(cccFormateada);
+                //Almacenamento do dc calculado
+		int [] dcCalculado= obtenDixitoControl(cccIntroducida);
 		
 		//presuncion de inocencia da CCC introducida e comprobaci�n de que o DC introducido esta ben
 		boolean validado=true;
@@ -144,15 +161,26 @@ public class CCC {
 		}
 		return validado;
 	}
-	
+	/**
+         * Metodo para controlar o paso a string dos obxectos da clase
+         * @return String co CCC introducido en formato EEEE-OOOO-DD-CCCCCCCCCC
+         */
 	public String toString () {
 		return this.ccc;
 	}
-
+        /**
+         * Metodo para obter o CCC completo 
+         * @return String co CCC en formato EEEE-OOOO-DD-CCCCCCCCCC
+         */
 	public String getCcc() {
 		return ccc;
 	}
-
+        /**
+         * Metodo para cambiar o CCC de cada obxecto. Valida o DC introducido e o 
+         * formato.
+         * @param ccc String introducido polo usuario
+         * @throws Exception para formato erroneo e DC non valido
+         */
 	public void setCcc(String ccc) throws Exception{
 		if (!comprobaFormato(ccc)) {
 			throw new Exception("O numero de conta introducido non esté no formato axeitado, EX EEEE-SSSS-DD-CCCCC");	
@@ -167,19 +195,31 @@ public class CCC {
 			this.numCuenta=cadea[3];
 		}
 	}	
-
+        /**
+         * Metodo para retornar os dixitos correspondentes a entidade
+         * @return String cos dixitos de entidade
+         */
 	public String getEntidad() {
 		return entidad;
 	}
-
+        /**
+         * Metodo para obter os dixitos correspondentes a sucursal
+         * @return String co dixitos da sucursal
+         */
 	public String getSucursal() {
 		return sucursal;
 	}
-
+        /**
+         * Metodo para obter o DC
+         * @return String co DC
+         */
 	public String getDc() {
 		return dc;
 	}
-
+        /**
+         * Metodo para obter o numero de conta
+         * @return String co numero de conta
+         */
 	public String getNumCuenta() {
 		return numCuenta;
 	}

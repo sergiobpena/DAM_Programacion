@@ -8,17 +8,21 @@ public class AplicacionCuentaBancaria {
     //Encapsulación da entrada en atributos da clase da aplición principal
     InputStreamReader isr;
     BufferedReader br;
-    boolean sair;
-    String lectura;
 
+    /**
+     * Constructor que inicia os atributos abrindo o isr e un buffered reader para leer os datos
+     * pedidos o usuario
+     */
     public AplicacionCuentaBancaria() {
         this.isr = new InputStreamReader(System.in);
         this.br = new BufferedReader(isr);
-        this.sair = false;
     }
-
+/**
+ * Metodo para leer por teclado as opción que se ofrezcan, establecendo a opción para sair do programa
+ * @return void
+ */
     public String lee() {
-        
+        String lectura="";
         try {
             lectura = this.br.readLine();
         } catch (IOException e) {
@@ -29,26 +33,34 @@ public class AplicacionCuentaBancaria {
         }
         return lectura;
     }
-
+/**
+ * Metodo con mensaxe de incio da aplicación
+ */
     public void arrancaConsola() {
         System.out.print("Benvido a aplicaci�n de xesti�n de contas bancarias \n"
                 + "Se desexas sair en calquera momento introduce sair");
 
     }
-
-    public String leeNome() {
+/**
+ * Metodo para introducir o nome do titular da conta
+ * @return nome obxecto da clase nome 
+ */
+    public Nome leeNome() {
         System.out.print("\n\nIntroduce o nome e apelidos do titular da conta:");
-        String nome = null;
+        Nome nome = null;
         while (nome == null) {
             try {
-                nome = lee();
+                nome =new Nome(lee()) ;
             } catch (Exception e1) {
-                System.out.print(e1.getMessage() + "Erro,lonxitude maxima de nome excedida, \nIntroduce un nome cunha lonxitude m�xima de: " + Nome.nomMaxLonx + ": ");
+                System.out.print(e1.getMessage() + " \nIntroduce un nome cunha lonxitude máxima de: " + Nome.nomMaxLonx + ": ");
             }
         }
         return nome;
     }
-
+/**
+ * Metodo para introducir o CCC
+ * @return  CCC obxecto da mesma clase que o nome
+ */
     public CCC leeCcc() {
         System.out.print("\n\nIntroduce o numero de Conta Codigo Cliente: ");
         CCC ccc = null;
@@ -63,49 +75,50 @@ public class AplicacionCuentaBancaria {
     }
 
     public static void main(String[] args) {
+        //Instanciacion da aplicacion de consola
         AplicacionCuentaBancaria ap= new AplicacionCuentaBancaria();
+        //Arranque e lectura de nome e ccc
         ap.arrancaConsola();
         CCC ccc = ap.leeCcc();
         Nome nome = ap.leeNome();
         CuentaBancaria cuenta = new CuentaBancaria(nome, ccc);
+        //variable auxiliar para toma de datos onde se podan producir excepcions
         boolean flag;
-
+        //Bucle infinito para realizar as operacions sobre a conta bancaria, mostra por pantalla as opcions
+        //e logo plantexase un bucle swich para xestionar a loxica da aplicación
         while (true) {
 
             System.out.print("\n\nIndique a operacion que desexe realizar, introducindo o numero correspondente: \n\n"
                     + "[1]-Consultar saldo \t [2]-Realizar un ingreso \t [3]-Retirada de fondos \n"
-                    + "[4]-Nome do titular \t [5]-Entidad \t\t\t [6]-Sucursal "
-                    + "[7]-Dixito control \t [9]-Numero de conta \t [10] -CCC completo \n"
+                    + "[4]-Nome do titular \t [5]-Entidad \t\t\t [6]-Sucursal  \n"
+                    + "[7]-Dixito control \t [8]-Numero de conta \t\t [9]-CCC completo \n"
                     + "[sair]-Finaliza programa \n\n[Operacion]: ");
-            String operacion = lee();
+            String operacion = ap.lee();
             flag = true;
 
             switch (operacion) {
                 case "1":
-                    System.out.print("\nO saldo actual �: " + cuenta.getSaldo());
+                    System.out.print("\nO saldo actual é: " + cuenta.getSaldo());
                     break;
                 case "2":
                     System.out.print("\nIntroduce o importe a ingresar: ");
                     while (flag) {
                         try {
-                            cuenta.ingresoEfectivo(lee());
+                            cuenta.ingresoEfectivo(ap.lee());
                             flag = false;
-                        } catch (FormatoNonValidoException e7) {
-                            System.out.print("\n" + e7.getMessage() + "Introduce importe en formato correcto");
+                        } catch (Exception e7) {
+                            System.out.print("\n" + e7.getMessage() + " Introduce importe en formato correcto");
                         }
                     }
-
                     break;
                 case "3":
                     System.out.print("\nIntroduce o importe a retirar: ");
                     while (flag) {
                         try {
-                            cuenta.retiradaEfectivo(lee());
+                            cuenta.retiradaEfectivo(ap.lee());
                             flag = false;
-                        } catch (FormatoNonValidoException e8) {
-                            System.out.print("\n" + e8.getMessage() + "Introduce importe en formato correcto:");
-                        } catch (SaldoInsException e9) {
-                            System.out.print("\n" + e9.getMessage() + ": ");
+                        } catch (Exception e8) {
+                            System.out.print("\n" + e8.getMessage() + " Introduce importe en formato correcto:");
                         }
                     }
                     break;
@@ -113,17 +126,22 @@ public class AplicacionCuentaBancaria {
                     System.out.print("\nO titular é :" + cuenta.getNome());
                     break;
                 case "5":
-                    System.out.print("\nO numero de enidade é : " + cuenta.getCcc().getSucursal());
+                    System.out.print("\nO numero de enidade é : " + cuenta.getCcc().getEntidad());
                     break;
                 case "6":
                     System.out.print("\nO n�mero de sucursal é : " + cuenta.getCcc().getSucursal());
                     break;
                 case "7":
                     System.out.println("\nOs dixitos de control son : " + cuenta.getCcc().getDc());
+                    break;
                 case "8":
                     System.out.println("\nO número de conta é : " + cuenta.getCcc().getNumCuenta());
+                    break;
+                case "9":
+                    System.out.println("\nO CCC completo é : " + cuenta.getCcc().getCcc());
+                    break;
                 default:
-                    System.out.println("\nOperaci�n non v�lida");
+                    System.out.println("\nOperaci�n non válida");
                     break;
             }
         }
