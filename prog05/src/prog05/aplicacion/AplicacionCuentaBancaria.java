@@ -3,10 +3,6 @@ package prog05.aplicacion;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import prog05.exceptions.FormatoNonValidoException;
-import prog05.exceptions.NomeException;
-import prog05.exceptions.NumeroErroneoException;
-import prog05.exceptions.SaldoInsException;
 
 public class AplicacionCuentaBancaria {
     //Encapsulación da entrada en atributos da clase da aplición principal
@@ -22,11 +18,9 @@ public class AplicacionCuentaBancaria {
     }
 
     public String lee() {
-        String lectura = "";
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
+        
         try {
-            lectura = br.readLine();
+            lectura = this.br.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,14 +38,12 @@ public class AplicacionCuentaBancaria {
 
     public String leeNome() {
         System.out.print("\n\nIntroduce o nome e apelidos do titular da conta:");
-
         String nome = null;
-
         while (nome == null) {
             try {
                 nome = lee();
-            } catch (NomeException e1) {
-                System.out.print(e1.getMessage() + "Erro,lonxitude maxima de nome excedida, \nIntroduce un nome cunha lonxitude m�xima de: " + Nome.NOM_MAX_LENGHT + ": ");
+            } catch (Exception e1) {
+                System.out.print(e1.getMessage() + "Erro,lonxitude maxima de nome excedida, \nIntroduce un nome cunha lonxitude m�xima de: " + Nome.nomMaxLonx + ": ");
             }
         }
         return nome;
@@ -63,10 +55,8 @@ public class AplicacionCuentaBancaria {
         while (ccc == null) {
             try {
                 ccc = new CCC(lee());
-            } catch (FormatoNonValidoException e) {
+            } catch (Exception e) {
                 System.out.print(e.getMessage() + "\nIntroduce de novo o CCC: ");
-            } catch (NumeroErroneoException e1) {
-                System.out.print(e1.getMessage() + "\nIntroduce de novo o CCC: ");
             }
         }
         return ccc;
@@ -76,7 +66,7 @@ public class AplicacionCuentaBancaria {
         AplicacionCuentaBancaria ap= new AplicacionCuentaBancaria();
         ap.arrancaConsola();
         CCC ccc = ap.leeCcc();
-        String nome = leeNome();
+        Nome nome = ap.leeNome();
         CuentaBancaria cuenta = new CuentaBancaria(nome, ccc);
         boolean flag;
 

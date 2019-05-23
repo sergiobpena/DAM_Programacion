@@ -4,12 +4,12 @@ public class CuentaBancaria {
 	
 	private double saldo;
 	private CCC ccc;
-	private String nome;
+	private Nome nome;
         private static int maxLonxNome=30;
 	
 	public CuentaBancaria() {}
         
-	public CuentaBancaria (String nome, CCC ccc) throws Exception{
+	public CuentaBancaria (Nome nome, CCC ccc) throws Exception{
             if (comprobaNome(nome)){
                 this.ccc=ccc;
 		this.nome=nome;
@@ -18,18 +18,6 @@ public class CuentaBancaria {
                 throw new Exception("O nome introducido excede a lonxitude maxima");
             }
 	}
-        /**
-         * 
-         * @param nome String co nome do titular da conta.
-         * @return true se cumple cos requerimentos false en caso contrario.
-         */
-        private boolean comprobaNome(String nome){
-            if (nome.length()>CuentaBancaria.getMaxLonxNome()){
-                return false;
-            } else {
-                return true;
-            }
-        }
         
 	private boolean comprobaImporte(String importe) {
 		try {
@@ -64,35 +52,16 @@ public class CuentaBancaria {
 	}
 	
 	public double getSaldo() {
-		return saldo;
+		return this.saldo;
 	}
 
 	public CCC getCcc() {
-		return ccc;
+		return this.ccc;
 	}
 	public void setCcc(CCC ccc) {
 		this.ccc = ccc;
 	}
-	public String getNome() {
-		return nome;
+	public Nome getNome() {
+		return this.nome;
 	}
-	public void setNome(String nome) throws Exception {
-            if (comprobaNome(nome)){
-                this.nome = nome;
-            } else {
-                throw new Exception ("O nome introducido excede a lonxitude maxima");
-            }
-		
-	}
-        
-        public static int getMaxLonxNome (){
-            return maxLonxNome;
-        }
-        public static void setMaxLonxNome(int lonx) throws Exception{
-            if (lonx <= 0){
-                throw new Exception ("Introduciuse unha lonxitude de nome negativa");
-            } else {
-                maxLonxNome=lonx;
-            }
-        }
 }
