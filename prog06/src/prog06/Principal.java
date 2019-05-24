@@ -1,28 +1,31 @@
-
+package prog06;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import prog06.Serializador;
+import prog06.Cliente;
 
 public class Principal {
 	
 	InputStreamReader isr;
 	BufferedReader br;
-	String lectura;
-	File archivoRespaldo= new File("clientes.dat");
+        Serializador sr;
 	
-	public Principal() {
+	public Principal(String ruta) {
+            
 		this.isr=new InputStreamReader(System.in);
 		this.br=new BufferedReader(isr);
-		this.lectura="";
+                this.sr= new Serializador(new File (ruta));
 	}
 	
 	public  String lee() {
-		
+		String lectura="";
 		try {
-			this.lectura =this.br.readLine();
+			lectura =this.br.readLine();
 		} catch (IOException e) {
-			e.printStackTrace();
+                        System.out.println("Erro de L/E na entrada por teclado");
 		}
 		if (lectura.equals("sair")) {
 			System.exit(0);
@@ -35,7 +38,7 @@ public class Principal {
 				+ "Se desexas sair en calquera momento introduce sair");	
 	}
 	
-	public void creaCliente() {
+	public Cliente creaCliente() {
 		
 		System.out.print("Introduce o nome do cliente \n"
 				+ "[Nome do Cliente]: ");
@@ -58,6 +61,8 @@ public class Principal {
 		Double deuda=Double.parseDouble(lee());
 		
 		Cliente c=new Cliente(nome, nif, dir, deuda, telefono);
+                return c;
+                
 		
 		
 	}
@@ -72,68 +77,71 @@ public class Principal {
 		return c;
 	}
 	
-
-	public static Cliente [] engadeCliente (Cliente [] actual,Cliente novo) {
-		
-		Cliente [] novalista = new Cliente [actual.length + 1 ];
-		for (int i = 0 ; i<actual.length;i++) {
-			novalista[i]=actual[i];
-		}
-		novalista[actual.length]=novo;
-		return novalista;
-	}
 	
-	public void consola(Principal aplicacion) {
+	public void consola() {
 		
 		while(true) {
 			
 			System.out.print("\n\nIndique a operacion que desexe realizar, introducindo o numero correspondente: \n\n[1]-Engadir cliente \t "
-					+ "[2]-Listar clientes \t [3]-Buscar clientes \n[4]-Borrar clientes \t [5]-Eliminar ficheiro \t\t\t [sair]-Sair da aplicacion \n\n[Operacion]: " );
-			String operacion=aplicacion.lee();
+					+ "[2]-Listar clientes \t [3]-Buscar clientes \n[4]-Borrar clientes \t [5]-Eliminar ficheiro \n[sair]-Sair da aplicacion \n\n[Operacion]: " );
+			String operacion=lee();
 			switch (operacion) {
 			case "1":
-				//Cliente c =aplicacion.creaCliente();
+				Cliente c =creaCliente();
+                                try{
+                                    this.sr.gardaCliente(c);
+                                
+                                } catch (Exception e2){
+                                    System.out.println(e2.getMessage()); 
+                                }
 				break;
 			case "2":
-				//listar
+                            try{
+				Cliente.listarClientes(this.sr.recuperaClientes());
+                            }catch (Exception e2){
+                                    System.out.println(e2.getMessage());
+                                }
 				break;
 			case "3":
-				//buscar
+                            System.out.println("\n\nIntroduce nif do cliente a recuperar : ");
+				String nif=lee();
+                                try{
+                                  System.out.println(this.sr.recuperaCliente(nif));  
+                                } catch (Exception e){
+                                    System.out.println(e.getMessage());
+                                }
 				break;
 			case "4":
-				//Borrar cliente
-			case "6":
-				//Borrar ficheiro
+                            System.out.println("\n\nIntroduce nif do cliente a borrar : ");
+                            nif = lee();
+                            try{
+                                this.sr.borraCliente(nif);
+                            }catch (Exception e ){
+                                System.out.println(e.getMessage());
+                            }
+			case "5":
+                            try{
+                               this.sr.borraArchivo(); 
+                            }catch(Exception e ){
+                                System.out.println(e.getMessage());
+                            }
 				break;
 			default:
+                            System.out.println("\n\nOperación non valida!");
 				break;
 			}
 		}
 	}
 	
-	public static Cliente [] borraCliente (String nif,Cliente[] lista) throws ArrayIndexOutOfBoundsException {
-		Cliente [] novaLista = new Cliente [lista.length-1];
-		int i =0;
-		for (Cliente c:lista) {
-			
-				if (!c.getNIF().equals(nif)) {
-					novaLista[i]=c;
-					i++;
-				}
-		}
-		return novaLista;
-	}	
-	 
+	
 
 
 	public static void main(String[] args)  {
 		
-		File archivoRespaldo= new File("clientes.dat");
-		Principal aplicacion=new Principal();
-		Serializador serial = new Serializador(archivoRespaldo);
-		serial.getFicheiro().delete();
+            Principal ap = new Principal("clientes.dat");
+            ap.consola();
 		
-		Cliente c1= new Cliente("Frijol Frio","6552582581V","Monte pio",7777777777777.2,"43561125");
+	
 		
 
 

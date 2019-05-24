@@ -1,3 +1,4 @@
+package prog06;
 import java.io.Serializable;
 
 public class Cliente implements Serializable {
@@ -62,7 +63,7 @@ public class Cliente implements Serializable {
 
 	
 	public String toString () {
-		return "Nome: " + this.nome + " Dni: " + this.nif + " Direcci�n " + this.direccion + " Telefono: " + this.telefono  + " Deuda: " + this.deuda;
+		return "Nome: " + this.nome + " Dni: " + this.nif + " Dirección " + this.direccion + " Teléfono: " + this.telefono  + " Deuda: " + this.deuda;
 	}
 	
 	public static void listarClientes(Cliente[] c) {
