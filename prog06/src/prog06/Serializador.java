@@ -1,4 +1,4 @@
-
+package prog06;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,47 +7,55 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+
 public class Serializador {
 	
-	private File ficheiro;
+	private static  File ficheiro;
+        
+        public static File getSerializador (File archivo){
+            if (ficheiro==null){
+                ficheiro=archivo;
+            }
+            return ficheiro;
+        }
 	
-	public Serializador(File archivo) {
-		this.ficheiro= ficheiro;
+	private Serializador(File archivo) {
+		
 	}
 	
-	public void serializaObxeto(Cliente o) {
-	
+	public void serializaObxeto(Object o) {
+            //De non existir crea
 		if (!this.ficheiro.exists()) {		
-			this.ficheiro.createNewFile();
+                    try {
+                        this.ficheiro.createNewFile();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
 		}
 		try {
-			
-			
 			ObjectOutputStream oex= new ObjectOutputStream(new FileOutputStream(this.ficheiro));
 			oex.writeObject(o);
 			oex.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Ficheiro non atopado cando intentas gardar cliente");
-			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("Erro de lectua escritura cando intentas gardar cliente");
-			e.printStackTrace();
 		}
 	}
 	
-	
-	public Cliente[] recuperaClientes() throws SinClientesGardadosException {
+	//Devolve listado cos clientes existentes
+	public Cliente[] recuperaClientes() throws Exception {
 	
 		Cliente[] c =null;
 		
 		if (!this.ficheiro.exists()) {
-			throw new SinClientesGardadosException("Non existen rexistros gardados ");
+			throw new Exception("Non existen rexistros gardados ");
 		} else {
-			
 			try {
 				ObjectInputStream recupera = new ObjectInputStream(new FileInputStream(this.ficheiro));
+                                //Se o ficheiro existe pero borraronse todolos rexistros
 				if (recupera.readObject() == null) {
-					throw new SinClientesGardadosException("Non existen rexistros gardados ");
+					throw new Exception("Non existen rexistros gardados ");
 				} else {
 					c = (Cliente[]) recupera.readObject();
 				}
@@ -60,13 +68,19 @@ public class Serializador {
 				e.printStackTrace();
 			}
 		}
+                
 		return c;
 	}
-	
-	public boolean existeCliente(String nif) throws SinClientesGardadosException {
-		Cliente [] listado= recuperaClientes();
+        
+	//Comproba que existe o cliente co nif
+	public boolean existeCliente(String nif) {
+		Cliente [] listado=null;
+            try {
+                listado = recuperaClientes();
+            } catch (Exception ex) {
+                ex.getMessage();
+            }
 		boolean existe=false;
-		
 		for(Cliente c:listado) {
 			if(c.getNIF().equals(nif)) {
 				existe=true;
@@ -74,15 +88,33 @@ public class Serializador {
 		}
 		return existe;
 	}
+        
+        public Cliente recuperaCliente(String nif){
+            Cliente c = null;
+            if(existeCliente(nif)){
+                Cliente [] listado=null;
+                try {
+                    listado = recuperaClientes();
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+                for (Cliente cc:listado){
+                    if(cc.getNIF().equals(nif)){
+                         c=cc;
+                    }
+                }
+            }
+            return c;
+        }
 
-	public void borraCliente(String nif) throws ClienteNonAtopadoException, SinClientesGardadosException {
+	public void borraCliente(String nif) throws Exception {
 
 		Cliente[] listadoActual = recuperaClientes();
 		try {
 
 			ObjectOutputStream oex = new ObjectOutputStream(new FileOutputStream(this.ficheiro));
 			if (!existeCliente(nif)) {
-				throw new ClienteNonAtopadoException("Non existe ningun cliente con DNI: " + nif);
+				throw new Exception("Non existe ningun cliente con DNI: " + nif);
 			} else if (listadoActual.length == 1) {
 				oex.writeObject(null);
 				oex.close();
@@ -95,16 +127,13 @@ public class Serializador {
 						i++;
 					}
 				}
+                                serializaObxeto(listadoActualizado);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public File getFicheiro() {
-		return ficheiro;
 	}
 	
 }

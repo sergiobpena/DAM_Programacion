@@ -83,7 +83,7 @@ public class Principal {
 		return novalista;
 	}
 	
-	public void consolame(Principal aplicacion) {
+	public void consola(Principal aplicacion) {
 		
 		while(true) {
 			
