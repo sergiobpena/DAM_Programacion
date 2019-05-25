@@ -5,6 +5,8 @@
  */
 package principal;
 
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author Sergio
@@ -51,22 +53,47 @@ public class procesador extends javax.swing.JFrame {
 
         jMenuItNovo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItNovo.setText("Novo");
+        jMenuItNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItNovoActionPerformed(evt);
+            }
+        });
         jMenuArchivo.add(jMenuItNovo);
 
         jMenuItAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, 0));
         jMenuItAbrir.setText("Abrir");
+        jMenuItAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItAbrirActionPerformed(evt);
+            }
+        });
         jMenuArchivo.add(jMenuItAbrir);
 
         jMenuItGardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItGardar.setText("Gardar");
+        jMenuItGardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItGardarActionPerformed(evt);
+            }
+        });
         jMenuArchivo.add(jMenuItGardar);
 
         jMenuItGardarComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItGardarComo.setText("Gardar como");
+        jMenuItGardarComo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItGardarComoActionPerformed(evt);
+            }
+        });
         jMenuArchivo.add(jMenuItGardarComo);
 
         jMenuItSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItSair.setText("Sair");
+        jMenuItSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItSairActionPerformed(evt);
+            }
+        });
         jMenuArchivo.add(jMenuItSair);
 
         jMenuBarra.add(jMenuArchivo);
@@ -102,6 +129,29 @@ public class procesador extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+//Menu Archivo
+    private void jMenuItSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItSairActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItSairActionPerformed
+
+    private void jMenuItGardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItGardarComoActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        int seleccion = fileChooser.showOpenDialog(jTextArea1);
+    }//GEN-LAST:event_jMenuItGardarComoActionPerformed
+
+    private void jMenuItGardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItGardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItGardarActionPerformed
+
+    private void jMenuItAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItAbrirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItAbrirActionPerformed
+
+    private void jMenuItNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItNovoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItNovoActionPerformed
 
     /**
      * @param args the command line arguments
