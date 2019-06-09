@@ -92,3 +92,32 @@ Wikipedia: Código Cuenta Cliente.
 
 Puedes generar cuentas bancarias válidas (o comprobarlas) para hacer pruebas en tu programa desde el siguiente enlace: 
 Generador/validador de cuentas bancarias.
+
+---
+Clase Personaje (Abstracta)
+nombre
+ataque
+vida
+
+constructor nombre
+
+set ataque(ataque)
+
+Rey 
+vida 2000
+Cabaleiro
+15000
+Troll 
+1000
+Interfaz ataque
+
+lanzar ataque (Personaje enemigo)
+
+Ataque con cuchillo
+-25
+
+Ataque con arco
+-50
+
+Ataque espada
+-100
