@@ -5,7 +5,18 @@
  */
 package principal;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import java.util.HashMap;
 
 /**
  *
@@ -99,17 +110,37 @@ public class procesador extends javax.swing.JFrame {
         jMenuBarra.add(jMenuArchivo);
 
         jMenuEdicion.setText("Editar");
+        jMenuEdicion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuEdicionActionPerformed(evt);
+            }
+        });
 
         jMenuItCopiar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItCopiar.setText("Copiar");
+        jMenuItCopiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItCopiarActionPerformed(evt);
+            }
+        });
         jMenuEdicion.add(jMenuItCopiar);
 
         jMenuItCortar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItCortar.setText("Cortar");
+        jMenuItCortar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItCortarActionPerformed(evt);
+            }
+        });
         jMenuEdicion.add(jMenuItCortar);
 
         jMenuItPegar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItPegar.setText("Pegar");
+        jMenuItPegar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItPegarActionPerformed(evt);
+            }
+        });
         jMenuEdicion.add(jMenuItPegar);
 
         jMenuBarra.add(jMenuEdicion);
@@ -138,20 +169,98 @@ public class procesador extends javax.swing.JFrame {
     private void jMenuItGardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItGardarComoActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
-        int seleccion = fileChooser.showOpenDialog(jTextArea1);
+        int seleccion = fileChooser.showSaveDialog(jTextArea1);
+        if (seleccion == JFileChooser.APPROVE_OPTION){
+            this.archivo= fileChooser.getSelectedFile();
+            try {
+                this.archivo.createNewFile();
+                FileWriter fw = new FileWriter(this.archivo);
+                PrintWriter pw = new PrintWriter (fw);
+                pw.write(jTextArea1.getText());
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(procesador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jMenuItGardarComoActionPerformed
 
     private void jMenuItGardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItGardarActionPerformed
         // TODO add your handling code here:
+        if (this.archivo==null){
+            JFileChooser jc = new JFileChooser();
+            int sel= jc.showSaveDialog(jTextArea1);
+            if (sel == JFileChooser.APPROVE_OPTION){
+                this.archivo = jc.getSelectedFile();
+                try {
+                    this.archivo.createNewFile();
+
+                FileWriter fw = new FileWriter(this.archivo);
+                PrintWriter pw = new PrintWriter(fw);
+                pw.write(jTextArea1.getText());
+                fw.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(procesador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }else{
+            if(this.archivo.exists()){
+                try{
+                    FileWriter fw = new FileWriter(this.archivo);
+                    fw.write(this.jTextArea1.getText());
+                    fw.close();
+                }catch (IOException e){
+                    Logger.getLogger(procesador.class.getName()).log(Level.SEVERE,null,e);
+                }
+            }
+        }
     }//GEN-LAST:event_jMenuItGardarActionPerformed
 
     private void jMenuItAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItAbrirActionPerformed
         // TODO add your handling code here:
+        JFileChooser jc = new JFileChooser();
+        int sel = jc.showOpenDialog(this.jTextArea1);
+        if (sel == JFileChooser.APPROVE_OPTION){
+            this.archivo = jc.getSelectedFile();
+            try {
+                FileReader fr = new FileReader(this.archivo);
+                BufferedReader br = new BufferedReader(fr);
+                String linea;
+                while((linea=br.readLine())!= null){
+                    this.jTextArea1.append(linea);
+                }
+                
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(procesador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jMenuItAbrirActionPerformed
 
     private void jMenuItNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItNovoActionPerformed
         // TODO add your handling code here:
+        this.archivo=null;
+        this.jTextArea1.setText("");
     }//GEN-LAST:event_jMenuItNovoActionPerformed
+
+    private void jMenuEdicionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEdicionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuEdicionActionPerformed
+
+    private void jMenuItCortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItCortarActionPerformed
+        // TODO add your handling code here:
+        this.jTextArea1.cut();
+        
+    }//GEN-LAST:event_jMenuItCortarActionPerformed
+
+    private void jMenuItPegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItPegarActionPerformed
+        // TODO add your handling code here:
+        this.jTextArea1.paste();
+    }//GEN-LAST:event_jMenuItPegarActionPerformed
+
+    private void jMenuItCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItCopiarActionPerformed
+        // TODO add your handling code here:
+        this.jTextArea1.copy();
+    }//GEN-LAST:event_jMenuItCopiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,4 +312,6 @@ public class procesador extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
+private File archivo= null;
 }
+

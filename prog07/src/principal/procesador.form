@@ -70,6 +70,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Editar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuEdicionActionPerformed"/>
+          </Events>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItCopiar">
               <Properties>
@@ -78,6 +81,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Copiar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItCopiarActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItCortar">
               <Properties>
@@ -86,6 +92,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cortar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItCortarActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItPegar">
               <Properties>
@@ -94,6 +103,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pegar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItPegarActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
