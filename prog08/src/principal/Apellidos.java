@@ -9,6 +9,11 @@ package principal;
  *
  * @author Sergio
  */
-public class Apellidos {
+public class Apellidos extends Nombre{
+    
+    public Apellidos (){
+        
+        this.nombreCampo="apellidos";
+    }
     
 }
