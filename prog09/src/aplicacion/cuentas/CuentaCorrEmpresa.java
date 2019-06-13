@@ -21,6 +21,9 @@ public class CuentaCorrEmpresa extends CuentaCorrentes{
         this.maxDesc=maximo;
         this.tipoIntDesc=tipoInteres;
     }
+    public CuentaCorrEmpresa(Persoa p , CCC ccc){
+        super(p,ccc);
+    }
 
     /**
      * @return the tipoIntDesc
@@ -48,5 +51,14 @@ public class CuentaCorrEmpresa extends CuentaCorrentes{
      */
     public void setMaxDesc(Double maxDesc) {
         this.maxDesc = maxDesc;
+    }
+    @Override
+    public void retirada(Double saldo) throws Exception{
+        Double saldoFinal= this.saldo-saldo;
+        if((saldoFinal+this.maxDesc)<0){
+            throw new Exception("Descuberto maximo permitido : " + this.maxDesc );
+        }else{
+            this.saldo=this.saldo-saldo;
+        }
     }
 }

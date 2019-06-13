@@ -13,11 +13,14 @@ import aplicacion.Persoa;
  * @author Sergio
  */
 public class CuentaCorrPersonal extends CuentaCorrentes{
-    private Double comision;
+    private Double comision=0.015;
     
     public CuentaCorrPersonal(Persoa p , CCC ccc , Double saldo , Double comision){
         super(p,ccc,saldo);
         this.comision=comision;
+    }
+    public CuentaCorrPersonal(Persoa p, CCC ccc){
+        super(p,ccc);
     }
 
     /**

@@ -19,11 +19,16 @@ public class CuentaBancaria implements Imprimible{
     
     protected Persoa titular;
     protected Double saldo;
-    private CCC ccc;
+    protected CCC ccc;
     ArrayList <CuentaBancaria> lista;
     
     public CuentaBancaria(){
         
+    }
+    public CuentaBancaria(Persoa p,CCC ccc){
+        this.titular=p;
+        this.ccc=ccc;
+        this.saldo=0.;
     }
     public CuentaBancaria(Persoa p , Double saldo , CCC ccc){
         this.titular=p;
@@ -37,7 +42,7 @@ public class CuentaBancaria implements Imprimible{
     }
     @Override
     public String toString(){
-        return "Titular: " + this.titular +"\nSaldo actual : " + this.saldo + "\nCCC : " + this.getCcc();
+        return "Titular: " + this.titular +"\nSaldo actual : " + this.getSaldo() + "\nCCC : " + this.getCcc();
     }
     @Override
     public boolean equals(Object o){
@@ -63,4 +68,28 @@ public class CuentaBancaria implements Imprimible{
     public void setCcc(CCC ccc) {
         this.ccc = ccc;
     }
+
+    /**
+     * @return the saldo
+     */
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    /**
+     * @param saldo the saldo to set
+     */
+    public void retirada(Double saldo) throws Exception {
+        Double saldoFin =this.saldo -saldo;
+        if (saldoFin<=0){
+            throw new Exception("Saldo insuficiente, saldo actual: " + this.saldo);
+        }else{
+            this.saldo = saldo;
+        }
+        
+    }
+    public void ingreso(Double importe){
+        this.saldo=this.saldo+importe;
+    }
 }
+

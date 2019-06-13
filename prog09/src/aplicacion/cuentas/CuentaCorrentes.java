@@ -16,7 +16,9 @@ import java.util.Hashtable;
 public abstract class CuentaCorrentes extends CuentaBancaria{
     
     protected Hashtable<String, Double> entAutorizadas;
-    
+    public CuentaCorrentes(Persoa p , CCC ccc){
+        super( p, ccc);
+    }
     public CuentaCorrentes (Persoa p , CCC ccc , Double saldo){
         super(p,saldo,ccc);
     }

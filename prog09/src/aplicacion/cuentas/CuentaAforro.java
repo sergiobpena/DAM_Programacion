@@ -19,5 +19,8 @@ public class CuentaAforro extends CuentaBancaria{
     public CuentaAforro(Persoa p,CCC ccc,Double saldo){
         super(p,saldo,ccc);
     }
+    public CuentaAforro (Persoa p, CCC ccc){
+        super(p,ccc);
+    }
     
 }

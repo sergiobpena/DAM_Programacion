@@ -1,4 +1,10 @@
 package aplicacion;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Clase para xestionar o nome do titular da conta bancaria
  * @author Sergio
@@ -9,12 +15,15 @@ public class Persoa {
         //Variable estática que establece o lonxitude máxima dos nomes das contas
 	public static int nomMaxLonx=30;
         private String apelidos;
-	private String fechaNac;
+	private Date fechaNac;
         /**
          * Constructor, no que se valida a lonxitude do nome de titular introducido
          * @param nome String introducido polo usuario
          * @throws Exception Se excede a lonxitude máxima fixada
          */
+        public Persoa(){
+            
+        }
 	public Persoa (String nome, String apellidos,String fecha) throws Exception {
 		
 		if (nome.length()>nomMaxLonx){
@@ -50,7 +59,7 @@ public class Persoa {
          * @return String co nome e apelidos do titular
          */
 	public String toString () {
-		return this.nome;
+		return this.nome + this.getApelidos() ;
 	}
         /**
          * Metodo estatico para coñecer a maxima lonxitude permitida de nome
@@ -72,4 +81,41 @@ public class Persoa {
                 nomMaxLonx=lonx;
             }
         }
+
+    /**
+     * @return the apelidos
+     */
+    public String getApelidos() {
+        return apelidos;
+    }
+
+    /**
+     * @param apelidos the apelidos to set
+     */
+    public void setApelidos(String apelidos) {
+        this.apelidos = apelidos;
+    }
+
+    /**
+     * @return the fechaNac
+     */
+    public String getFechaNac() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(this.fechaNac);
+    }
+
+    /**
+     * @param fechaNac the fechaNac to set
+     */
+    public void setFechaNac(String fecha) throws Exception {
+        Pattern p = Pattern.compile("^[\\d]{2}/[\\d]{2}/[\\d]{4}$");
+        Matcher m = p.matcher(fecha);
+        if(m.matches()){
+            SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+            this.fechaNac = sdf.parse(fecha);
+        }else{
+            throw new Exception ("Carallo");
+        }
+        
+    }
 }
