@@ -32,7 +32,7 @@ public class Persoa {
 			this.nome=nome;
 		}
                 this.apelidos=apellidos;
-                this.fechaNac=fecha;
+                //this.fechaNac=fecha;
 	}
         /**
          * Metodo para obter o nome completo do titular 
