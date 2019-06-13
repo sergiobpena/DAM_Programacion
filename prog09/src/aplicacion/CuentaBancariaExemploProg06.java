@@ -1,23 +1,23 @@
-package prog05.aplicacion;
+package aplicacion;
 /**
  * Clase CuentaBancaria, para creación de obxectos de cada conta bancaria que se 
  * faga alta. Xestionara as operacions sobre o saldo e almacenara o CCC e o Nome do 
  * titular
  * @author Sergio
  */
-public class CuentaBancaria {
+public class CuentaBancariaExemploProg06 {
 	
 	private double saldo;
 	private CCC ccc;
-	private Nome nome;
+	private Persoa nome;
 	
-	public CuentaBancaria() {}
+	public CuentaBancariaExemploProg06() {}
         /**
          * Constructor. As validacións deleganse nas clases CCC e Nome
          * @param nome obxecto cos datos do titutal da conta
          * @param ccc  obxecto co codigo conta cliente validado
          */
-	public CuentaBancaria (Nome nome, CCC ccc){
+	public CuentaBancariaExemploProg06 (Persoa nome, CCC ccc){
    
             this.ccc=ccc;
             this.nome=nome;
@@ -76,7 +76,7 @@ public class CuentaBancaria {
 	public void setCcc(CCC ccc) {
 		this.ccc = ccc;
 	}
-	public Nome getNome() {
+	public Persoa getNome() {
 		return this.nome;
 	}
 }

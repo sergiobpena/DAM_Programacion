@@ -1,26 +1,29 @@
-package prog05.aplicacion;
+package aplicacion;
 /**
  * Clase para xestionar o nome do titular da conta bancaria
  * @author Sergio
  */
-public class Nome {
+public class Persoa {
 	//Variable para o almacenamento do nome
 	private String nome;
         //Variable estática que establece o lonxitude máxima dos nomes das contas
 	public static int nomMaxLonx=30;
-	
+        private String apelidos;
+	private String fechaNac;
         /**
          * Constructor, no que se valida a lonxitude do nome de titular introducido
          * @param nome String introducido polo usuario
          * @throws Exception Se excede a lonxitude máxima fixada
          */
-	public Nome (String nome) throws Exception {
+	public Persoa (String nome, String apellidos,String fecha) throws Exception {
 		
 		if (nome.length()>nomMaxLonx){
 			throw new Exception("Nome con lonxitude maior da permitida");
 		} else {
 			this.nome=nome;
 		}
+                this.apelidos=apellidos;
+                this.fechaNac=fecha;
 	}
         /**
          * Metodo para obter o nome completo do titular 

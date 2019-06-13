@@ -1,4 +1,4 @@
-package prog05.aplicacion;
+package aplicacion;
 
 
 /**

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aplicacion;
+package aplicacion.cuentas;
 
 /**
  *
  * @author Sergio
  */
 public interface Imprimible {
-    
+    public String toString();
 }

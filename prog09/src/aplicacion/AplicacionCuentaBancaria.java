@@ -1,4 +1,4 @@
-package prog05.aplicacion;
+package aplicacion;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,14 +45,14 @@ public class AplicacionCuentaBancaria {
  * Metodo para introducir o nome do titular da conta
  * @return nome obxecto da clase nome 
  */
-    public Nome leeNome() {
+    public Persoa leeNome() {
         System.out.print("\n\nIntroduce o nome e apelidos do titular da conta:");
-        Nome nome = null;
+        Persoa nome = null;
         while (nome == null) {
             try {
-                nome =new Nome(lee()) ;
+                nome =new Persoa(lee()) ;
             } catch (Exception e1) {
-                System.out.print(e1.getMessage() + " \nIntroduce un nome cunha lonxitude máxima de: " + Nome.nomMaxLonx + ": ");
+                System.out.print(e1.getMessage() + " \nIntroduce un nome cunha lonxitude máxima de: " + Persoa.nomMaxLonx + ": ");
             }
         }
         return nome;
@@ -80,8 +80,8 @@ public class AplicacionCuentaBancaria {
         //Arranque e lectura de nome e ccc
         ap.arrancaConsola();
         CCC ccc = ap.leeCcc();
-        Nome nome = ap.leeNome();
-        CuentaBancaria cuenta = new CuentaBancaria(nome, ccc);
+        Persoa nome = ap.leeNome();
+        CuentaBancariaExemploProg06 cuenta = new CuentaBancariaExemploProg06(nome, ccc);
         //variable auxiliar para toma de datos onde se podan producir excepcions
         boolean flag;
         //Bucle infinito para realizar as operacions sobre a conta bancaria, mostra por pantalla as opcions
