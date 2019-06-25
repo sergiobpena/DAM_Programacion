@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package principal;
 
 import java.util.HashMap;
@@ -15,14 +11,13 @@ import org.w3c.dom.Element;
  * @author Sergio
  */
 public class ProcesadorClientes {
-    
+
     private Nombre nom = new Nombre();
     private Apellidos apel = new Apellidos();
     private Identificacion ident = new Identificacion();
     private Correo corr = new Correo();
     private Telefono tel = new Telefono();
-    private HashMap<Integer,String> listaErros= new HashMap<Integer, String>();
-    
+    private HashMap<Integer, String> listaErros = new HashMap<Integer, String>();
 
     private String separador = ",";
 
@@ -30,7 +25,7 @@ public class ProcesadorClientes {
 
         return entrada.split(separador);
     }
-    
+
     public void procesaEntrada(String c) {
         Document doc = DOMUtil.crearDOMVacio("cliente");
         String[] a = this.separaCadea(c);
@@ -41,21 +36,16 @@ public class ProcesadorClientes {
         if (a.length > 3) {
             for (int i = 3; i < a.length; i++) {
                 if (tel.procesa(a[i])) {
-
                 } else if (corr.procesa(c)) {
-
                 } else {
                     this.listaErros.put(i, c);
                 }
- 
-                    Document d1 = tel.procesa(doc);
-                    Document d2 = corr.procesa(doc);
-                    if(this.listaErros.size()>0){
-                        doc.createElement("Erros");
-                        this.listaErros.forEach((k,v ) -> doc.appendChild(doc.createComment("Erro na lectura, entrada :"+ k + "con valor: "+ v)));
-                    }
-
-
+            }
+            tel.procesa(doc);
+            corr.procesa(doc);
+            if (this.listaErros.size() > 0) {
+                doc.createElement("Erros");
+                this.listaErros.forEach((k, v) -> doc.appendChild(doc.createComment("Erro na lectura, entrada :" + k + "con valor: " + v)));
             }
         } else {
             Comment com = doc.createComment("Non se proporcionaron datos de contacto");
@@ -63,14 +53,12 @@ public class ProcesadorClientes {
     }
 
     public void creaDom() {
-        
-        this.procesaEntrada(separador);
-        
-        //DOMUtil.DOM2XML(doc, salida);
 
+        this.procesaEntrada(separador);
+
+        //DOMUtil.DOM2XML(doc, salida);
     }
-    
-    
+
     /*
         GETTER E SETTERS
      */
@@ -81,9 +69,11 @@ public class ProcesadorClientes {
     public void setIdent(Identificacion ident) {
         this.ident = ident;
     }
+
     public Apellidos getApel() {
         return apel;
     }
+
     public void setApel(Apellidos apel) {
         this.apel = apel;
     }

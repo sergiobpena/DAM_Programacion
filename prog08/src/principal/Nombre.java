@@ -34,7 +34,7 @@ public class Nombre {
             Element e=doc.createElement(this.getNombreCampo());
             e.setTextContent(c);
         }else{
-            Comment com = doc.createComment("Erro no procesado" + c);
+            Comment com = doc.createComment("Erro no procesado: " + c);
             doc.getDocumentElement().appendChild(com);
         }
         return doc;

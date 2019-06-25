@@ -6,10 +6,7 @@ package principal;
  *
  * @author Sergio
  */
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -124,7 +121,6 @@ public class Telefono implements Comparator<String>{
     public TreeSet <String> getLista() {
         return lista;
     }
-
     /**
      * @param lista the lista to set
      */
